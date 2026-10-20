@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=78"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "duplex-grounded"
+version = "0.1.0"
+description = "Budgeted, auditable PersonaPlex correction and grounding experiments"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "numpy>=1.26,<2.2", "pydantic>=2.12", "PyYAML>=6.0.3", "click>=8.2",
+  "soundfile>=0.13", "scipy>=1.15", "safetensors>=0.7", "torch==2.13.0",
+  "sentencepiece>=0.2.1", "einops>=0.8", "huggingface-hub>=0.35,<1",
+  "wandb>=0.23", "modal>=1.2", "filelock>=3.20", "httpx>=0.28",
+]
+
+[project.optional-dependencies]
+gpu = ["sphn>=0.1.12,<0.2; sys_platform == 'linux'"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.14", "mypy>=1.18", "types-PyYAML", "pip-audit>=2.9", "bandit>=1.8"]
+
+[project.scripts]
+duplex = "duplex.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = ["vendor", ".upstream"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.mypy]
+files = ["src/duplex"]
+check_untyped_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.uv]
+environments = ["sys_platform == 'linux'", "sys_platform == 'win32'"]

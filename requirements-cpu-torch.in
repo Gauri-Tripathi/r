@@ -1,0 +1,2 @@
+# Official CPU wheel; CUDA installation is resolved separately by uv.lock.
+torch==2.13.0+cpu
