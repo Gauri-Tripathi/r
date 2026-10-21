@@ -1,0 +1,10 @@
+{
+  "checked_date": "2026-10-31",
+  "official": {"url": "https://github.com/NVIDIA/personaplex", "commit": "3428dfd95309a7f3c84fd93259ded0f810d1ff91", "license": "MIT plus vendored Moshi/Audiocraft notices"},
+  "community_audit_only": {"url": "https://github.com/tin-computer/personaplex-finetune", "commit": "d8c69e03390b2a97cfc926a2c52623e9b512b549"},
+  "base": {"repo": "nvidia/personaplex-7b-v1", "revision": "fdaf4090a61cb315c138a1faee287ffd6c716309", "filename": "model.safetensors", "license": "NVIDIA Open Model License; base Moshi CC-BY-4.0 attribution"},
+  "codec": {"repo": "nvidia/personaplex-7b-v1", "revision": "fdaf4090a61cb315c138a1faee287ffd6c716309", "filename": "tokenizer-e351c8d8-checkpoint125.safetensors"},
+  "tokenizer": {"repo": "nvidia/personaplex-7b-v1", "revision": "fdaf4090a61cb315c138a1faee287ffd6c716309", "filename": "tokenizer_spm_32k_3.model"},
+  "benchmark": {"url": "https://github.com/DanielLin94144/Full-Duplex-Bench", "commit": "3e799c45a045256f47d5f1c9cda90157e2d2ec9e", "subset": "v1_v1.5 user_interruption, user-supplied isolated input.wav only"},
+  "openyap": {"repo": "TheAgenticDataCompany/open-yap-1k", "revision": "a08b1c80e50159d462ddcbbabfdea5bf7ccfc626", "enabled": true, "mode": "separate bounded conversation feasibility pilot", "verified": "Both public shards SHA-256 checked; isolated shared-timeline tracks inspected; 34 train, 6 dev, 7 test windows; speaker-disjoint split. Not task-grounding supervision."}
+}

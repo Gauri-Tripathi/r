@@ -1,0 +1,59 @@
+{
+  "base": {
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "bias.md",
+      "config.json",
+      "dist.tgz",
+      "explainability.md",
+      "figures/.DS_Store",
+      "figures/results_conversation_dynamics.png",
+      "figures/results_latency.png",
+      "figures/results_task_adherence.png",
+      "model.safetensors",
+      "privacy.md",
+      "safety.md",
+      "tokenizer-e351c8d8-checkpoint125.safetensors",
+      "tokenizer_spm_32k_3.model",
+      "voices.tgz"
+    ],
+    "gated": "auto",
+    "license": "other",
+    "repo": "nvidia/personaplex-7b-v1",
+    "sha": "fdaf4090a61cb315c138a1faee287ffd6c716309"
+  },
+  "openyap": {
+    "files": [
+      ".gitattributes",
+      "LICENSE.txt",
+      "README.md",
+      "metadata.jsonl",
+      "open-yap-1k-sample.tar",
+      "preview/conv_04692967d40e.mp3",
+      "preview/conv_0c917fc63b3b.mp3",
+      "preview/conv_10cf7f6ff081.mp3",
+      "preview/conv_14f897f75018.mp3",
+      "preview/conv_2e4aec4666d8.mp3",
+      "preview/conv_31982da49c73.mp3",
+      "preview/conv_31bedfc99b53.mp3",
+      "preview/conv_5a798c657bb0.mp3",
+      "preview/conv_756ee444d825.mp3",
+      "preview/conv_aa4777220a1e.mp3",
+      "preview/conv_b98b64206aee.mp3",
+      "preview/conv_bcff0c2a0be7.mp3",
+      "preview/conv_cb37687ec915.mp3",
+      "preview/conv_d4005da6db98.mp3",
+      "preview/conv_e11edcca8521.mp3",
+      "preview/conv_f5c0b02f01e2.mp3",
+      "preview/metadata.jsonl",
+      "shard-00000.tar",
+      "shard-00001.tar",
+      "verification.json"
+    ],
+    "gated": false,
+    "license": "cc-by-4.0",
+    "repo": "TheAgenticDataCompany/open-yap-1k",
+    "sha": "a08b1c80e50159d462ddcbbabfdea5bf7ccfc626"
+  }
+}
