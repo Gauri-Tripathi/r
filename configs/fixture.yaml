@@ -1,0 +1,8 @@
+# CPU plumbing only, no real checkpoint or paid calls. Seconds locally.
+groups: 6
+seed: 17
+train:
+  wandb_mode: disabled
+  max_steps: 2
+  accumulation: 1
+  max_frames: 64

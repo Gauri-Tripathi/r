@@ -1,0 +1,3 @@
+# Candidate pool only: 400 scenarios. Render a bounded selection after profiling.
+groups: 100
+seed: 17
