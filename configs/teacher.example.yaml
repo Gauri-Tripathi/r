@@ -1,0 +1,11 @@
+# Copy locally and set an explicit model, provider endpoint and separate API budget.
+# Zero deliberately fails validation until a budget is explicitly chosen.
+endpoint: https://YOUR_PROVIDER.example/v1/chat/completions
+model: SET_A_LICENSED_TEXT_TEACHER_MODEL
+revision: SET_EXACT_TEACHER_REVISION
+budget_usd: 0
+input_per_million: 0
+output_per_million: 0
+max_output_tokens: 160
+retries: 0
+timeout_s: 30
