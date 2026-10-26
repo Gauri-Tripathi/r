@@ -1,0 +1,11 @@
+# Real checkpoint smoke only, one A100-80GB, bounded by reservation watchdog.
+groups: 3
+seed: 17
+train:
+  rank: 8
+  alpha: 8
+  layers: [30, 31]
+  max_steps: 1
+  accumulation: 1
+  max_frames: 750
+  wandb_mode: offline

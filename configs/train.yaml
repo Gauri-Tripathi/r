@@ -1,0 +1,31 @@
+# LEGACY SMOKE TEST ONLY. The four-clip pilot is not the research experiment.
+# Use configs/research.yaml with prepared teacher data and a measured baseline.
+# One A100-80GB, 2 physical CPU cores, 32 GiB; historical time target is not a workload requirement.
+experiment_kind: smoke_test
+# Rate conservatively includes 3x CPU/RAM shell pricing, before 15% safety margin.
+groups: 100
+seed: 17
+budget:
+  balance_usd: 24.51
+  ceiling_usd: 18
+  max_gpu_s: 18000
+  target_gpu_s: 14400
+  rate_usd_s: 0.00098572
+  safety_margin: 0.15
+  non_gpu_reserve_usd: 1.5
+  evaluation_reserve_s: 1800
+  checkpoint_reserve_s: 180
+  prices_checked: '2026-10-31'
+train:
+  rank: 8
+  alpha: 8
+  layers: [28, 29, 30, 31]
+  lr: 0.00001
+  accumulation: 4
+  max_frames: 750
+  max_steps: 100
+  checkpoint_every: 25
+  post_event_weight: 1.0
+  text_pad_weight: 0.1
+  replay_frame_fraction: 0.15
+  wandb_mode: offline
