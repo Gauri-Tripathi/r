@@ -1,0 +1,32 @@
+name: CPU checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      WANDB_MODE: offline
+      NO_TORCH_COMPILE: '1'
+      NO_CUDA_GRAPH: '1'
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+        with:
+          python-version: '3.11'
+      - run: python -m pip install uv==0.8.10
+      - run: uv lock --check
+      - run: python scripts/check_modal_lock.py
+      - run: bash scripts/setup_cpu_linux.sh
+      - run: uv export --locked --only-group dev --no-emit-project --output-file /tmp/dev-locked.txt
+      - run: uv pip install --python .venv-linux/bin/python -r /tmp/dev-locked.txt
+      - run: .venv-linux/bin/python -m pytest -q
+      - run: .venv-linux/bin/python -m ruff check src tests scripts modal_app.py
+      - run: .venv-linux/bin/python -m ruff format --check src tests scripts modal_app.py
+      - run: .venv-linux/bin/python -m mypy src/duplex
+      - run: .venv-linux/bin/python scripts/security_check.py
+      - run: .venv-linux/bin/python scripts/secret_scan.py
+      - run: .venv-linux/bin/python -m pip_audit --local
