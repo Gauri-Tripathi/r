@@ -1,0 +1,982 @@
+{
+  "adapter_tensors": [
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.0487833134829998,
+      "max_abs_change": 0.0002891458570957184,
+      "name": "transformer.layers.28.self_attn.out_proj.a",
+      "parameters": 32768,
+      "shape": [
+        8,
+        4096
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.04653109982609749,
+      "max_abs_change": 0.00028898828895762563,
+      "name": "transformer.layers.28.self_attn.out_proj.b",
+      "parameters": 32768,
+      "shape": [
+        4096,
+        8
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.04865412786602974,
+      "max_abs_change": 0.0002891933545470238,
+      "name": "transformer.layers.29.self_attn.out_proj.a",
+      "parameters": 32768,
+      "shape": [
+        8,
+        4096
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.046470895409584045,
+      "max_abs_change": 0.0002890088362619281,
+      "name": "transformer.layers.29.self_attn.out_proj.b",
+      "parameters": 32768,
+      "shape": [
+        4096,
+        8
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.04864124953746796,
+      "max_abs_change": 0.0002891147742047906,
+      "name": "transformer.layers.30.self_attn.out_proj.a",
+      "parameters": 32768,
+      "shape": [
+        8,
+        4096
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.046388205140829086,
+      "max_abs_change": 0.0002891381736844778,
+      "name": "transformer.layers.30.self_attn.out_proj.b",
+      "parameters": 32768,
+      "shape": [
+        4096,
+        8
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.04839450493454933,
+      "max_abs_change": 0.00028910674154758453,
+      "name": "transformer.layers.31.self_attn.out_proj.a",
+      "parameters": 32768,
+      "shape": [
+        8,
+        4096
+      ]
+    },
+    {
+      "changed_elements": 32768,
+      "dtype": "torch.float32",
+      "l2_change": 0.04579954966902733,
+      "max_abs_change": 0.00028899358585476875,
+      "name": "transformer.layers.31.self_attn.out_proj.b",
+      "parameters": 32768,
+      "shape": [
+        4096,
+        8
+      ]
+    }
+  ],
+  "base_revision": "fdaf4090a61cb315c138a1faee287ffd6c716309",
+  "checkpoint_comparison": {
+    "from": "step-000075",
+    "to": "step-000100"
+  },
+  "classification": "smoke_test",
+  "data": {
+    "dev": {
+      "audio_s": 112.08,
+      "examples": 4,
+      "groups": 1,
+      "joint_audio_pairs": 4,
+      "rows": [
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 294,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            378
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 30,
+          "correction_end_s": 11.809875,
+          "correction_present": true,
+          "duration_s": 25.92,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 13.527333333333333,
+              "event_id": "e-1-2",
+              "facts": [
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Priya",
+                  "status": "available"
+                },
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Sam",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0001",
+              "source": "calendar_mock",
+              "version": 2
+            }
+          ],
+          "expected_native_audio_tokens": 2345,
+          "family": "make_that",
+          "finite": true,
+          "group": "req-17-0001",
+          "id": "s-17-0001-available",
+          "masked_nonprompt_frames": 30,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 16.32,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "3a09a0d213243e9a64b5dc1c138acc739dceb68944139c5c9ecf4f5938e69e10",
+          "timing": "overlap",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": true
+        },
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 313,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            408
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 41,
+          "correction_end_s": 11.809875,
+          "correction_present": true,
+          "duration_s": 28.32,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 13.527333333333333,
+              "event_id": "e-1-2",
+              "facts": [
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Priya",
+                  "status": "unavailable"
+                },
+                {
+                  "day": "Monday",
+                  "hour": "6",
+                  "person": "Priya",
+                  "status": "available"
+                },
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Sam",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0001",
+              "source": "calendar_mock",
+              "version": 2
+            }
+          ],
+          "expected_native_audio_tokens": 2497,
+          "family": "make_that",
+          "finite": true,
+          "group": "req-17-0001",
+          "id": "s-17-0001-unavailable",
+          "masked_nonprompt_frames": 41,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 17.2,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "3cd14a1e4735f5391b9a7ef4259eeeb986d02efe9262edc4d8c377aac4f0fd49",
+          "timing": "overlap",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": true
+        },
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 339,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            423
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 30,
+          "correction_end_s": 11.809875,
+          "correction_present": true,
+          "duration_s": 29.52,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 13.527333333333333,
+              "event_id": "e-1-2",
+              "facts": [
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Priya",
+                  "status": "unknown"
+                },
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Sam",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0001",
+              "source": "calendar_mock",
+              "version": 2
+            }
+          ],
+          "expected_native_audio_tokens": 2705,
+          "family": "make_that",
+          "finite": true,
+          "group": "req-17-0001",
+          "id": "s-17-0001-unknown",
+          "masked_nonprompt_frames": 30,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 16.32,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "0c763c742bf915d13895714bf3aa17eed0b4a272b43d0b795e99e54855652f0b",
+          "timing": "overlap",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": true
+        },
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 313,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            408
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 41,
+          "correction_end_s": 11.809875,
+          "correction_present": true,
+          "duration_s": 28.32,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 13.527333333333333,
+              "event_id": "e-1-2",
+              "facts": [
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Priya",
+                  "status": "unavailable"
+                },
+                {
+                  "day": "Monday",
+                  "hour": "6",
+                  "person": "Priya",
+                  "status": "available"
+                },
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Sam",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0001",
+              "source": "calendar_mock",
+              "version": 2
+            },
+            {
+              "arrival_s": 14.527333333333333,
+              "event_id": "e-1-1",
+              "facts": [
+                {
+                  "day": "Monday",
+                  "hour": "5",
+                  "person": "Priya",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0001",
+              "source": "calendar_mock",
+              "version": 1
+            }
+          ],
+          "expected_native_audio_tokens": 2497,
+          "family": "make_that",
+          "finite": true,
+          "group": "req-17-0001",
+          "id": "s-17-0001-stale",
+          "masked_nonprompt_frames": 41,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 17.2,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "3cd14a1e4735f5391b9a7ef4259eeeb986d02efe9262edc4d8c377aac4f0fd49",
+          "timing": "overlap",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": true
+        }
+      ],
+      "unique_supervision_texts": 3
+    },
+    "train": {
+      "audio_s": 126.32000000000001,
+      "examples": 4,
+      "groups": 1,
+      "joint_audio_pairs": 4,
+      "rows": [
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 339,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            422
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 29,
+          "correction_end_s": 16.829125,
+          "correction_present": true,
+          "duration_s": 29.44,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 17.069125,
+              "event_id": "e-0-2",
+              "facts": [
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Maya",
+                  "status": "available"
+                },
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Ananya",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0000",
+              "source": "calendar_mock",
+              "version": 2
+            }
+          ],
+          "expected_native_audio_tokens": 2705,
+          "family": "actually",
+          "finite": true,
+          "group": "req-17-0000",
+          "id": "s-17-0000-available",
+          "masked_nonprompt_frames": 29,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 19.76,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "542fb4e90654ee2477021fb348c4a0f345a21a09446076c7a9954ba4e9754a4f",
+          "timing": "clean",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": false
+        },
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 360,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            453
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 39,
+          "correction_end_s": 16.829125,
+          "correction_present": true,
+          "duration_s": 31.92,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 17.069125,
+              "event_id": "e-0-2",
+              "facts": [
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Maya",
+                  "status": "unavailable"
+                },
+                {
+                  "day": "Saturday",
+                  "hour": "6",
+                  "person": "Maya",
+                  "status": "available"
+                },
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Ananya",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0000",
+              "source": "calendar_mock",
+              "version": 2
+            }
+          ],
+          "expected_native_audio_tokens": 2873,
+          "family": "actually",
+          "finite": true,
+          "group": "req-17-0000",
+          "id": "s-17-0000-unavailable",
+          "masked_nonprompt_frames": 39,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 20.56,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "f6dae0e9d97ff4c3a4c388e152abbdef92a25ced074782fa9e1c4f1c45c16cfc",
+          "timing": "clean",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": false
+        },
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 384,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            467
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 29,
+          "correction_end_s": 16.829125,
+          "correction_present": true,
+          "duration_s": 33.04,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 17.069125,
+              "event_id": "e-0-2",
+              "facts": [
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Maya",
+                  "status": "unknown"
+                },
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Ananya",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0000",
+              "source": "calendar_mock",
+              "version": 2
+            }
+          ],
+          "expected_native_audio_tokens": 3065,
+          "family": "actually",
+          "finite": true,
+          "group": "req-17-0000",
+          "id": "s-17-0000-unknown",
+          "masked_nonprompt_frames": 29,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 19.76,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "88b440978659298df87a38475e60c44ded2ee8631fa638c5c0b097381ce9c7df",
+          "timing": "clean",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": false
+        },
+        {
+          "alignment": "measured word-concatenation boundaries; within-word onset uncertainty up to segment duration; 80ms codec quantization",
+          "assistant_valid_frames": 360,
+          "audio_hashes_match_manifest": true,
+          "clipped": false,
+          "codes_shape": [
+            1,
+            17,
+            453
+          ],
+          "context_delivered_before_response": true,
+          "context_frames": 39,
+          "correction_end_s": 16.829125,
+          "correction_present": true,
+          "duration_s": 31.92,
+          "encoded_checksum_valid": true,
+          "events": [
+            {
+              "arrival_s": 17.069125,
+              "event_id": "e-0-2",
+              "facts": [
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Maya",
+                  "status": "unavailable"
+                },
+                {
+                  "day": "Saturday",
+                  "hour": "6",
+                  "person": "Maya",
+                  "status": "available"
+                },
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Ananya",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0000",
+              "source": "calendar_mock",
+              "version": 2
+            },
+            {
+              "arrival_s": 18.069125,
+              "event_id": "e-0-1",
+              "facts": [
+                {
+                  "day": "Saturday",
+                  "hour": "4",
+                  "person": "Maya",
+                  "status": "available"
+                }
+              ],
+              "request_id": "req-17-0000",
+              "source": "calendar_mock",
+              "version": 1
+            }
+          ],
+          "expected_native_audio_tokens": 2873,
+          "family": "actually",
+          "finite": true,
+          "group": "req-17-0000",
+          "id": "s-17-0000-stale",
+          "masked_nonprompt_frames": 39,
+          "matches_deterministic_reference": true,
+          "prompt_frames": 54,
+          "prompt_loss_targets": 0,
+          "provenance": {
+            "license": "CC0-1.0",
+            "source": "simulator",
+            "version": "appointments-v1"
+          },
+          "response_after_correction": true,
+          "response_start_s": 20.56,
+          "same_timeline": true,
+          "sample_rate": 24000,
+          "supervision_sha256": "f6dae0e9d97ff4c3a4c388e152abbdef92a25ced074782fa9e1c4f1c45c16cfc",
+          "timing": "clean",
+          "tool_arrives_during_prefix": false,
+          "tts_version": "eSpeak NG text-to-speech: 1.51  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data",
+          "user_loss_targets": 0,
+          "waveform_overlap_during_correction": false
+        }
+      ],
+      "unique_supervision_texts": 3
+    }
+  },
+  "effective_epochs_by_audio": 100.0,
+  "effective_projection_change_75_to_100_frobenius": {
+    "transformer.layers.28.self_attn.out_proj": 0.028910760920599014,
+    "transformer.layers.29.self_attn.out_proj": 0.02870757018256038,
+    "transformer.layers.30.self_attn.out_proj": 0.02968222912122963,
+    "transformer.layers.31.self_attn.out_proj": 0.030016726245847523
+  },
+  "effective_projection_delta_frobenius": {
+    "transformer.layers.28.self_attn.out_proj": 0.1031970258451119,
+    "transformer.layers.29.self_attn.out_proj": 0.10251226983396304,
+    "transformer.layers.30.self_attn.out_proj": 0.10476891248638404,
+    "transformer.layers.31.self_attn.out_proj": 0.10667578655501186
+  },
+  "generation_artifacts": {
+    "generation-calibration": {
+      "adapter_sha256": null,
+      "base_revision": "fdaf4090a61cb315c138a1faee287ffd6c716309",
+      "context_forced_silence_s": 2.32,
+      "decoding": "greedy-v1",
+      "duration_s": 29.44,
+      "events": [
+        {
+          "accepted": true,
+          "at_s": 17.12,
+          "event_id": "e-0-2",
+          "frames": 29
+        }
+      ],
+      "generated_audio_sha256": "fd79edaff7d62a6d0df46f95a6c1c1a8fa5215f0e69498d61cd9f9df8b77b2b6",
+      "generation_s": 56.462524835,
+      "input_fingerprint": "19cd5cfefe02d70f9d64d67e67d25735aabc1e807e39c95949f00542ac37c4a2",
+      "internal_text_sha256": "5e809d4478701f3136a322185fa51e5396ebae4f2e1a42c21385320d7a5d7465",
+      "rtf": 1.9178846751019023,
+      "runtime_fingerprint": "5602bd8017df5ff3c6a1c9921fa389ca3910a59fc6656c8d206496b84081bef1",
+      "sample_rate": 24000,
+      "seed": 17,
+      "silence_fraction": 0.6736880095108696,
+      "text_token_count": 77,
+      "truncated": false,
+      "voice_sha256": null
+    },
+    "smoke-generation": {
+      "adapter_sha256": null,
+      "base_revision": "fdaf4090a61cb315c138a1faee287ffd6c716309",
+      "context_forced_silence_s": 0.0,
+      "decoding": "greedy-v1",
+      "duration_s": 1.6,
+      "events": [],
+      "generated_audio_sha256": "800ab2335237a6ddff45e8582d7ae7d1525de69e3171d32cc69746941d53a394",
+      "generation_s": 11.670929235000017,
+      "input_fingerprint": "19cd5cfefe02d70f9d64d67e67d25735aabc1e807e39c95949f00542ac37c4a2",
+      "internal_text_sha256": "383c7bd483c5e5e2046b6dc8bf913457cc51582b54819c9d8a6ff685f9464846",
+      "rtf": 7.2943307718750106,
+      "runtime_fingerprint": "5602bd8017df5ff3c6a1c9921fa389ca3910a59fc6656c8d206496b84081bef1",
+      "sample_rate": 24000,
+      "seed": 17,
+      "silence_fraction": 0.3631770833333333,
+      "text_token_count": 6,
+      "truncated": true,
+      "voice_sha256": null
+    }
+  },
+  "identity": {
+    "base_revision": "fdaf4090a61cb315c138a1faee287ffd6c716309",
+    "codec_revision": "fdaf4090a61cb315c138a1faee287ffd6c716309",
+    "data": "f799f1ed1eef9932a89d64180f3d9b6ebf8f1c8e7bbc176a46c70bb947b859cc",
+    "official_commit": "3428dfd95309a7f3c84fd93259ded0f810d1ff91",
+    "runtime_patch": "native-step-facts-v1",
+    "targets": [
+      "transformer.layers.28.self_attn.out_proj",
+      "transformer.layers.29.self_attn.out_proj",
+      "transformer.layers.30.self_attn.out_proj",
+      "transformer.layers.31.self_attn.out_proj"
+    ],
+    "tokenizer_revision": "fdaf4090a61cb315c138a1faee287ffd6c716309",
+    "train": {
+      "accumulation": 4,
+      "alpha": 8.0,
+      "checkpoint_every": 25,
+      "dropout": 0.0,
+      "layers": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "lr": 1e-05,
+      "max_frames": 750,
+      "max_steps": 100,
+      "post_event_weight": 1.0,
+      "rank": 8,
+      "replay_frame_fraction": 0.15,
+      "second_pass": false,
+      "seed": 17,
+      "text_pad_weight": 0.1,
+      "wandb_entity": null,
+      "wandb_mode": "offline",
+      "wandb_project": null
+    }
+  },
+  "logged_audio_exposure_s": 12632.0,
+  "losses": {
+    "audio_loss": {
+      "first": 1.979890376329422,
+      "last": 1.9095959961414337,
+      "max": 1.9799646735191345,
+      "min": 1.9095959961414337
+    },
+    "audio_seconds": {
+      "first": 126.32,
+      "last": 126.32,
+      "max": 126.32,
+      "min": 126.32
+    },
+    "grad_norm": {
+      "first": 0.11300186812877655,
+      "last": 0.4249737560749054,
+      "max": 0.4249737560749054,
+      "min": 0.11280199140310287
+    },
+    "loss": {
+      "first": 2.7164493203163147,
+      "last": 2.6081491708755493,
+      "max": 2.7164884209632874,
+      "min": 2.6081491708755493
+    },
+    "text_loss": {
+      "first": 0.7365589141845703,
+      "last": 0.6985531598329544,
+      "max": 0.737367108464241,
+      "min": 0.6985531598329544
+    },
+    "valid_audio_tokens": {
+      "first": 11516.0,
+      "last": 11516.0,
+      "max": 11516.0,
+      "min": 11516.0
+    },
+    "valid_text_tokens": {
+      "first": 1443.0,
+      "last": 1443.0,
+      "max": 1443.0,
+      "min": 1443.0
+    }
+  },
+  "missing_evidence": [
+    "No initial step-zero adapter checkpoint; step-75 to step-100 change is verified, not exact initialization-to-final change.",
+    "No per-modality per-adapter GPU gradients retained. Combined gradient norm is logged; separate audio-gradient reach is only a tiny upstream CPU test.",
+    "No matched base/adapter full generation pair or ASR transcription. Existing smoke generations cannot establish audible improvement or adapter output sensitivity.",
+    "Native delay array was not serialized at runtime. Referenced pinned native code uses [0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1].",
+    "Word timings are construction boundaries, not natural-speech forced alignment; no independent listening/ASR alignment audit."
+  ],
+  "optimizer": {
+    "param_groups": [
+      {
+        "amsgrad": false,
+        "betas": [
+          0.9,
+          0.95
+        ],
+        "capturable": false,
+        "decoupled_weight_decay": true,
+        "differentiable": false,
+        "eps": 1e-08,
+        "foreach": null,
+        "fused": null,
+        "lr": 1e-05,
+        "maximize": false,
+        "params": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "weight_decay": 0.01
+      }
+    ],
+    "steps_in_state": [
+      100
+    ]
+  },
+  "sampler_position": 400,
+  "source_inventory_sha256": "c4c0ca405d8682c9006a5c03411fba7e4f27dd69a68f5db4fd3bfdf9f5fae798",
+  "trainable_count_from_weights": 262144,
+  "training_log_steps": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100
+  ]
+}
