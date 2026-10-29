@@ -1,0 +1,77 @@
+{
+  "accepted_teacher_outputs_available": false,
+  "base_speech_baseline_executed": false,
+  "candidate_pool": {
+    "examples": 403,
+    "families": {
+      "dev:ambiguous_dev": 4,
+      "dev:hold_on": 12,
+      "dev:make_that": 12,
+      "dev:tool_only_dev": 4,
+      "test:ambiguous_test": 16,
+      "test:cancel_test": 8,
+      "test:on_second_thought": 9,
+      "test:scratch_that": 4,
+      "test:tool_only_test": 16,
+      "train:actually": 58,
+      "train:ambiguous": 53,
+      "train:cancel": 58,
+      "train:instead": 58,
+      "train:switch": 54,
+      "train:tool_only": 37
+    },
+    "fingerprint": "d6b23977d9aaa76868d1c1663d53d991f6e543fcab078aeef6bbad5231844866",
+    "groups": 109,
+    "no_correction_controls": 57,
+    "no_update_controls": 11,
+    "rendered_audio_s": null,
+    "semantic_unique": 403,
+    "splits": {
+      "dev": 32,
+      "test": 53,
+      "train": 318
+    },
+    "status": "candidate_pool_not_validated_audio",
+    "timing": {
+      "clean": 202,
+      "overlap": 201
+    }
+  },
+  "conservative_previous_workspace_metered_usd": 6.1834525,
+  "current_credit_user_report_usd": 23.87,
+  "date": "2026-11-01",
+  "evaluation_inputs": {
+    "dev": {
+      "audio_s": 394.8800000000001,
+      "examples": 12,
+      "groups": 3,
+      "kind": "locked_user_audio_evaluation",
+      "model_visible": "user WAV and arrived facts only",
+      "rendered_fingerprint": "ea90dcb81354be6d181e1f3ac2fdb0e90e08dfa619edbe7aeeeffc79e3787c74",
+      "source_fingerprint": "cc77eeb1606356b0f5087a915d1bed66d22145027ba0cb0fd628fb3ba98bf4a8",
+      "teacher_required": false,
+      "wall_s": 1.9719639789982466
+    },
+    "test": {
+      "audio_s": 421.76000000000005,
+      "examples": 12,
+      "groups": 3,
+      "kind": "locked_user_audio_evaluation",
+      "model_visible": "user WAV and arrived facts only",
+      "rendered_fingerprint": "e35f409ba9f7aed15de4d85de12ddb041ad13fe099e2d8ef3846a541fa15e03f",
+      "source_fingerprint": "c42d61475b64dc8826e1f4df10659fa04a767f7f10c595b147339907bc11e5e0",
+      "teacher_required": false,
+      "wall_s": 2.0778036519986927
+    }
+  },
+  "matched_speech_evaluation_executed": false,
+  "missing": [
+    "external teacher-responses.jsonl",
+    "cold teacher-audio/Mimi preparation measurement",
+    "audible base baseline with timestamped ASR and listening",
+    "fresh measured research workload and authorized paid execution"
+  ],
+  "original_ceiling_usd": 18,
+  "research_training_audio_prepared": false,
+  "smoke_export": "runs/exports/smoke-step100-reviewed"
+}
