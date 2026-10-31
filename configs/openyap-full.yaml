@@ -1,0 +1,14 @@
+# Full eligible public sample, not the 47-window pilot. Holdouts stay separate.
+experiment_kind: conversation_full
+max_effective_epochs: 1
+train:
+  rank: 8
+  alpha: 8
+  layers: [28, 29, 30, 31]
+  lr: 0.00001
+  accumulation: 4
+  max_frames: 750
+  max_steps: 500 # Safety ceiling; actual steps = floor(train windows / 4).
+  checkpoint_every: 50
+  wandb_mode: disabled
+  seed: 101
