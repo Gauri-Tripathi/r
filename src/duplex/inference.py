@@ -1,4 +1,4 @@
-"""Audible replay; generation sees only past/current user audio and arrived facts."""
+"""Causal generation from user audio and timestamped facts."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Resumable full-data codec preparation; batched streaming must pass a causal check."""
+"""Resumable Mimi encoding with causal chunk verification."""
 
 from __future__ import annotations
 

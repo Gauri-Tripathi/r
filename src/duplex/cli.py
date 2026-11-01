@@ -1,4 +1,4 @@
-"""One resumable local/Modal CLI. Paid stages are explicit, never fallbacks."""
+"""Training, preparation and evaluation commands."""
 
 from __future__ import annotations
 
@@ -309,7 +309,6 @@ def profile(
     if eval_examples % 4:
         raise ValueError("Evaluation examples must be in complete groups of four")
     run.mkdir(parents=True, exist_ok=True)
-    # Train example only; test never used to choose profile settings.
     row = next(r for r in load_examples(data) if r.split == "train")
     if generation_only:
         emit(

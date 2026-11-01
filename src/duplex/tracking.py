@@ -1,4 +1,4 @@
-"""Local allowlisted metrics always; bounded W&B in a separate worker process."""
+"""Local metrics and optional W&B logging in a worker process."""
 
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ ALLOWED = {
 def _worker(
     channel: Any, directory: str, mode: str, run_id: str, project: str | None, entity: str | None
 ) -> None:
-    # W&B never sees the raw config, environment, audio, transcripts, source, or weights.
+    # Send only numeric and hashed metrics to W&B.
     cache = Path(directory).resolve() / "private-cache"
     cache.mkdir(parents=True, exist_ok=True)
     os.environ.update(
@@ -84,7 +84,7 @@ def _worker(
             run.log(item, step=item["step"])
         run.finish()
     except Exception as exc:
-        # Isolated optional telemetry boundary: record only exception class, never payload.
+        # Log the exception type without the SDK payload.
         Path(directory, "tracking-error.txt").write_text(type(exc).__name__, encoding="utf-8")
 
 
@@ -138,7 +138,7 @@ class Tracker:
             try:
                 self.channel.put_nowait(safe)
             except queue.Full:
-                pass  # optional telemetry is bounded; local metrics are already durable
+                pass  # Metrics are already saved locally.
 
     def close(self) -> None:
         if self.process:

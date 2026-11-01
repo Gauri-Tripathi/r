@@ -1,8 +1,4 @@
-"""Provider-free teacher import contract and deterministic supervision validation.
-
-This module performs no network calls and has no teacher SDK dependency.
-The teacher is an offline preparation role, never part of student training.
-"""
+"""Teacher-response import and simulator-based validation."""
 
 from __future__ import annotations
 

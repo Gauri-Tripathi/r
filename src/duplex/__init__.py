@@ -1,3 +1,3 @@
-"""Owned experiment code. CPU fixtures are never evidence of 7B compatibility."""
+"""PersonaPlex fine-tuning and evaluation."""
 
 __version__ = "0.1.0"

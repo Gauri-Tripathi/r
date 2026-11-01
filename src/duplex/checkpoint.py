@@ -1,4 +1,4 @@
-"""Atomic complete checkpoints; tensors are safetensors, trusted optimizer state is restricted."""
+"""Atomic checkpoints and adapter exports."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Separate audio preparation for checked teacher training data and user-only evaluation."""
+"""Audio preparation for accepted targets and user-only evaluation."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Research candidates, locked subsets, and readiness checks. No teacher/network/GPU."""
+"""Correction scenarios, locked evaluation subsets and readiness checks."""
 
 from __future__ import annotations
 

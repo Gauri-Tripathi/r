@@ -1,4 +1,4 @@
-"""Bounded licensed ordinary-conversation replay; no grounding labels inferred from OpenYap."""
+"""Ordinary-conversation replay encoding and sampling."""
 
 from __future__ import annotations
 

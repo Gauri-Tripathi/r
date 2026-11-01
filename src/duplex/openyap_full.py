@@ -1,4 +1,4 @@
-"""Full public-sample preparation, with explicit coverage and resumable conversations."""
+"""Conversation-level splits and resumable full-sample preparation."""
 
 from __future__ import annotations
 

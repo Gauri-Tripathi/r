@@ -1,4 +1,4 @@
-"""A bounded facts-only interface; no state solver, transcript, or teacher at inference."""
+"""Timestamped structured-fact injection."""
 
 from __future__ import annotations
 

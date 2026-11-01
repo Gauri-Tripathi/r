@@ -1,4 +1,4 @@
-"""Limited Full-Duplex-Bench v1/v1.5 WAV bridge. No unpinned VAD/judge execution."""
+"""WAV replay bridge for Full-Duplex-Bench v1/v1.5 inputs."""
 
 from __future__ import annotations
 

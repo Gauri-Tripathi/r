@@ -1,4 +1,4 @@
-"""Persistent conservative reservations. Estimates are never exact Modal invoices."""
+"""Persistent GPU reservations and cumulative cost estimates."""
 
 from __future__ import annotations
 

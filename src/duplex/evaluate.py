@@ -1,4 +1,4 @@
-"""Audible ASR evaluation or explicitly labeled internal-token proxy, with paired CIs."""
+"""Speech scoring with timestamped ASR and grouped uncertainty estimates."""
 
 from __future__ import annotations
 

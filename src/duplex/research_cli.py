@@ -1,4 +1,4 @@
-"""Explicit research stages; teacher requests are optional/offline preparation only."""
+"""Correction and grounding experiment commands."""
 
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ def emit(value: object) -> None:
 
 @click.group("research")
 def group() -> None:
-    """Candidate -> external teacher import -> audio -> baseline -> bounded training."""
+    """Prepare and run the correction and grounding experiment."""
 
 
 @group.command("candidates")

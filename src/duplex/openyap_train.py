@@ -1,4 +1,4 @@
-"""One bounded base/adapter experiment on speaker-disjoint real conversations."""
+"""Matched base and adapter evaluation for OpenYap training."""
 
 from __future__ import annotations
 
@@ -267,7 +267,6 @@ def pilot(
         betas=(0.9, 0.95),
         weight_decay=0.01,
     )
-    # Exactly bounded data exposure, not a 100-step default.
     target_examples = math.ceil(len(paths["train"]) * cfg.max_effective_epochs)
     cap = min(
         cfg.train.max_steps or 64,

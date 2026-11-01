@@ -75,8 +75,7 @@ def encode_channel(
         audio = np.pad(audio, (0, 1920 - len(audio) % 1920))
     pieces = []
     mimi.eval()
-    # NNPACK is optional and unavailable on some managed CPU hosts. Use the
-    # ordinary CPU convolution path without repeatedly probing unsupported hardware.
+    # Avoid repeated NNPACK initialization failures on unsupported CPUs.
     cpu_backend = (
         torch.backends.nnpack.flags(enabled=False)
         if torch.device(device).type == "cpu"
@@ -128,7 +127,7 @@ def align_text(words: list[Word], frames: int, tokenizer: Any) -> torch.Tensor:
 def causal_align_text(
     words: list[Word], frames: int, tokenizer: Any, max_delay_s: float = 0.24
 ) -> tuple[torch.Tensor, dict[str, float]]:
-    """Serialize real word pieces causally with bounded, explicitly measured delay."""
+    """Place word pieces on the frame grid and record serialization delay."""
     tokens = torch.full((1, 1, frames), 3, dtype=torch.long)
     cursor, previous = 0, -1.0
     maximum = 0.0

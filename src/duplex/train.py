@@ -1,4 +1,4 @@
-"""Single-device native sequence SFT. The real checkpoint must pass the smoke gate."""
+"""Single-GPU supervised training with native text and audio losses."""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ def dataset_paths(directory: Path, split: str, max_frames: int) -> list[Path]:
         if meta["split"] != split:
             continue
         if meta["frames"] > max_frames:
-            # Truncating can silently remove the post-correction target. Reject instead.
+            # Reject long sessions to preserve the post-correction target.
             raise ValueError(
                 f"{path.name} exceeds max_frames; profile/choose shorter complete sessions"
             )
@@ -251,7 +251,7 @@ def calibrate_generation(
     voice: Path | None = None,
     eval_examples: int = 12,
 ) -> dict[str, Any]:
-    """Reuse smoke compatibility evidence; measure a full train conversation, never test data."""
+    """Calibrate generation time on a training conversation."""
     from .inference import generate
 
     prior = read_json(run / "profile.json")

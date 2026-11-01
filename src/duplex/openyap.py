@@ -1,4 +1,4 @@
-"""Pinned real OpenYap pilot data. No teacher, TTS, task labels or speaker cloning."""
+"""OpenYap sample selection and timestamp validation."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Readiness and measured exposure planning; no provider, model, or network calls."""
+"""Dataset readiness checks and workload planning."""
 
 from __future__ import annotations
 

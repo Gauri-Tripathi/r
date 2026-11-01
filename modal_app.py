@@ -9,7 +9,6 @@ cache = modal.Volume.from_name("duplex-cache", create_if_missing=True)
 data = modal.Volume.from_name("duplex-data", create_if_missing=True)
 runs = modal.Volume.from_name("duplex-runs", create_if_missing=True)
 
-# All compilation/dependency resolution is CPU image-build work, before GPU allocation.
 image = (
     modal.Image.debian_slim(python_version="3.11")
     .apt_install("espeak-ng", "libsndfile1")

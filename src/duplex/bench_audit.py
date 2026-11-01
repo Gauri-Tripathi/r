@@ -1,4 +1,4 @@
-"""Matched saved-artifact benchmark. Never infer quality from training loss or WAV headers."""
+"""Paired loss and speech diagnostics from saved run artifacts."""
 
 from __future__ import annotations
 

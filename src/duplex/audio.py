@@ -1,4 +1,4 @@
-"""Licensed WAV import and real CPU eSpeak NG rendering with measured segment alignment."""
+"""Shared audio timelines, eSpeak rendering and WAV import."""
 
 from __future__ import annotations
 
@@ -39,11 +39,7 @@ def load_wav(path: Path, max_s: float = 300) -> np.ndarray:
 
 
 class SpeechRenderer:
-    """Word-concatenation deliberately provides exact construction boundaries.
-
-    Robotic prosody is a limitation, not a forced-alignment claim. Import natural
-    speech plus externally checked word timings for a higher quality experiment.
-    """
+    """Render words separately and retain their measured segment boundaries."""
 
     def __init__(self, backend: str, voice: str = "en-us"):
         if backend not in ("espeak", "tone") or voice not in ("en-us", "en-gb"):
@@ -154,7 +150,7 @@ def render_example(row: Example, root: Path, renderer: SpeechRenderer, tokenizer
         )
         for e in row.visible.events
     ]
-    # Use the actual tokenizer to measure injection frames; this never changes user constraints.
+    # Context duration depends on the native tokenizer.
     context, audit = schedule(
         events, math.ceil((arrival + 40) * 12.5), 12.5, row.visible.request_id, tokenizer
     )

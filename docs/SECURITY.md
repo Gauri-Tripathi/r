@@ -1,15 +1,21 @@
-# Security review and boundaries
+# Credentials and local artifacts
 
-CPU CI uses read-only repository permissions, immutable checkout/setup-python actions, no production secrets, no public endpoints, and no `pull_request_target`. It runs tests, Ruff, mypy, pip-audit, Bandit with retained findings, and the repository secret scanner. These checks do not establish absence of vulnerabilities.
+Use a read-only Hugging Face token for model downloads. Teacher credentials are needed only for the optional teacher preparation command. Training and inference read prepared local files and cached model assets.
 
-`scripts/security_check.py` accepts only low-severity, explicitly reviewed IDs in specific files. Current findings are B404/B603 subprocess import/argument-array warnings in audio rendering, shell/watchdog, bounded volume flushing, and scanner runners; B607 is scoped to the fixed `git ls-files` scanner command; B311 is scoped to the deterministic scenario PRNG. All process invocations use arrays, no `shell=True`, bounded waits for noninteractive workers, and allowlisted/fixed executable inputs. The one Modal `--cmd` string contains only generated hex/numeric reservation values and fixed commands; no dataset or tool text reaches it. New severities/IDs/files fail the review. Full Bandit results remain local in `runs/security/bandit.json` rather than being silently suppressed.
+Keep keys in the environment, outside datasets, YAML, logs and checkpoints. `.env`, data, weights, generated audio and local runs are ignored. W&B defaults to offline mode and receives only allowlisted numeric or hashed metrics.
 
-The first Torch 2.8 audit found actionable issues including restricted-unpickler memory corruption. The lock was updated to Torch 2.13.0 and rescanned; the final Windows environment returned no known findings. CPU Torch wheels are separately hashed from the official PyTorch CPU index, with all non-CUDA dependency versions/hashes taken from `uv.lock`. Scan the actual Linux GPU image as well before a paid run; that image was not built here. The editable owned package is not a PyPI artifact and cannot be audited by pip-audit; owned code is scanned separately.
+Checkpoint adapters use safetensors. Optimizer resume state uses `torch.load(weights_only=True)` and checksum checks; accept it only from your own runs. Dataset paths must remain beneath the declared root. Owned loaders do not execute remote dataset code or use `trust_remote_code`.
 
-Use only HF read access in CPU asset preparation, no upload/teacher secret on GPU. Modal's shell SDK itself supplies Modal credentials internally for its managed shell; this is a trusted SDK boundary. The budgeted launcher uses a small Modal Dict atomic lease, not a manually managed Sandbox. Never paste secrets into shell commands. Online W&B requires explicit configuration, an environment API key, and an already private project. Offline is the default. No media, text transcripts, weights, source snapshots, environment dump or full config is sent to W&B. The worker receives only numeric/hashed allowlisted metrics, disables code/Git/console/machine capture, and has bounded startup/shutdown through process isolation. Real offline files were checked for sentinel environment credentials; keep testing after SDK upgrades.
+The vendored runtime includes server and import utilities that the project does not use. Do not use those utilities to load untrusted archives or voice embeddings.
 
-Tool inputs are strict enums and bounded typed snapshots. Unknown instructions/fields, invalid sources, versions, duplicate facts, oversized queues and control-token-shaped values reject. Request scope is checked. Late lower/equal revisions and duplicate event IDs are ignored and audited. No tool URL fetch or code execution occurs. Model-visible inputs contain WAV reference + arrived facts only; construction transcripts, simulator state and targets are excluded by schema. This protects an interface boundary, not a guarantee of model robustness against malicious speech.
+## Checks
 
-Only fixed Hugging Face filenames at immutable revisions are downloaded. No remote dataset code, `eval`, unsafe YAML loader, arbitrary pickle, automatic archive extraction, disabled TLS or `trust_remote_code` is used by owned code. Filenames supplied by datasets must stay under a declared root. The vendored upstream contains unused server/offline/tar/pickle utilities: **do not run those utilities on external assets**. Owned inference avoids their tar and voice-embedding pickle paths. Locally generated optimizer state is the only restricted pickle boundary. Publish only safetensors and the explicit release allowlist after reviewing model/data/voice redistribution terms.
+```bash
+python scripts/secret_scan.py
+python scripts/security_check.py
+python -m pip_audit --local
+```
 
-Watchdogs and accounting are best effort. A host crash, service outage, volume commit failure, raw shell launched outside the wrapper, or another workspace can defeat local accounting. The current Modal CLI's independent 3600-second managed-shell timeout is a useful fallback, not evidence that shutdown was tested. Check the dashboard and actual billing; a closed client alone never releases the reservation.
+Bandit findings are stored in `runs/security/bandit.json`. The allowlist in `scripts/security_check.py` covers reviewed subprocess calls and deterministic sampling. CI also runs tests, Ruff and mypy with read-only repository permissions.
+
+Budget reservations include startup and shell idle time. A disconnected client does not prove that the GPU stopped: confirm termination in Modal before reconciling the reservation. The ledger and watchdog are estimates and shutdown controls, not substitutes for checking billing.

@@ -1,4 +1,4 @@
-"""Supported modal shell wrapper. No manually managed Sandbox or public service."""
+"""Budgeted Modal shells with leases and shutdown deadlines."""
 
 from __future__ import annotations
 
@@ -57,7 +57,7 @@ def launch(
             "Another project GPU reservation exists in Modal. Do not launch a second shell; reconcile the existing reservation first."
         )
     command = f"cd /opt/duplex && /opt/duplex/.venv/bin/python -m duplex.launcher remote {session['deadline']:.3f} {session['id']} {seconds} {stage}"
-    # Reserve BEFORE allocation, including CLI startup/image wait and interactive idle time.
+    # Include startup and idle time in the reservation.
     env = os.environ.copy()
     env["DUPLEX_LAUNCH_ALLOWED"] = "1"
     args = [sys.executable, "-m", "modal", "shell", "modal_app.py::gpu_shell", "--cmd", command]
@@ -123,7 +123,7 @@ def remote(deadline_epoch: float, session_id: str, seconds: int, stage: str) -> 
     remote_ledger.reserve(seconds, now=deadline_epoch - seconds, session_id=session_id)
     with FileLock(str(lease) + ".lock", timeout=2):
         if lease.exists():
-            # Modal Volumes are not a distributed lock. Refuse a stale lease until manual reconciliation.
+            # A stale lease requires manual reconciliation before reuse.
             raise ValueError(
                 "GPU volume lease exists; verify previous shell stopped before explicit reconciliation"
             )
@@ -158,7 +158,7 @@ def remote(deadline_epoch: float, session_id: str, seconds: int, stage: str) -> 
         args = [sys.executable, "-m", "duplex.cli", "doctor"]
     child = subprocess.Popen(args, env=env, start_new_session=True)
     try:
-        # Deadline sends TERM with 180s save/flush grace counted INSIDE reservation.
+        # The reservation includes the 180-second save/flush grace.
         while child.poll() is None and time.time() < deadline_epoch - 180:
             time.sleep(1)
         if child.poll() is None:

@@ -1,12 +1,10 @@
-# Full OpenYap training commands
+# OpenYap training
 
-The previous run used nine minutes of training audio. This mode removes the pilot's per-conversation quota and 20-minute scan cap. It scans the complete pinned **8.922-hour** public sample, uses non-overlapping 48-second source windows, and preserves the source word timings. Partial boundary words have masked text loss; causal text-piece serialization may queue by at most 240 ms. Invalid audio/annotations are excluded and counted.
+The completed run used 544 train, 76 development and 56 test windows from the pinned 8.922-hour sample. Training covered about 7.15 source hours in one pass: 136 optimizer steps at accumulation four. Speakers overlap across the conversation-disjoint splits, and all test windows come from one conversation.
 
-The local metadata plan found **544 training windows / about 7.15 source hours**, 76 development windows / about 1.00 hour, and 56 test windows / about 0.74 hour, before waveform-quality exclusions. These are **conversation-disjoint** splits: speakers can overlap. There is no unseen-speaker claim. For speaker-disjoint evaluation, use `--split-mode speaker` with a fresh output directory; fewer hours will be available for training.
+Rank-8 LoRA targets temporal output projections in layers 28-31, with learning rate `1e-5`. Development loss selects the checkpoint. Native test audio loss changed from 2.66712 to 2.64902; text loss changed from 1.29411 to 1.27428. Speech-quality improvement remains unverified.
 
-The recipe remains rank-8 selective LoRA in layers 28–31 at LR `1e-5`. One full pass is the default; approximately **136 optimizer steps** with accumulation four, derived from actual surviving examples. The last partial accumulation uses remaining examples without wrapping to the start. Development monitoring selects the checkpoint; the same held-out speech is generated before and after. More data does not guarantee improvement.
-
-No full-data paid run has been launched by the agent. These commands are for you to execute. Existing $18 cumulative ceiling, accounting and session limits remain; the launcher refuses allocations exceeding them.
+The commands below prepare or resume this workflow. Use a fresh dataset/run version for a new experiment. Completed runs are not retrained.
 
 ## 1. Local preparation — WSL
 
@@ -19,7 +17,7 @@ duplex openyap full-prepare --source data/openyap/source \
   --split-mode conversation
 ```
 
-The public shards and tokenizer are already downloaded. Preparation writes roughly 6 GB of isolated WAVs across all splits. It resumes completed conversations after validating hashes. Inspect `data/openyap/full-v1/prepared.json` for actual surviving counts and hours; `plan.json` alone is not waveform validation.
+If the source files are missing, run `python scripts/fetch_openyap.py --audio` first. Preparation writes roughly 6 GB of isolated WAVs across all splits. It resumes completed conversations after validating hashes. Inspect `data/openyap/full-v1/prepared.json` for actual surviving counts and hours; `plan.json` alone is not waveform validation.
 
 ## 2. Upload once, then start a budgeted A100 80GB shell
 
@@ -30,7 +28,7 @@ duplex shell --config configs/openyap-full.yaml \
   --ledger runs/budget.json --seconds 3300
 ```
 
-Upload only once for this dataset version. Never reset the ledger or overwrite `pilot-v1`. Encoding runs separately from base-model loading. Faster 25-frame causal Mimi chunks are verified against frame-by-frame codes and an altered-future prefix check on the actual execution device. Local CPU verification passed on real audio; the GPU command verifies again before using that mode. No teacher/TTS credentials are required.
+Upload only once for this dataset version. Never reset the ledger or overwrite `pilot-v1`. Encoding runs separately from base-model loading. Faster 25-frame causal Mimi chunks are verified against frame-by-frame codes and an altered-future prefix check on the actual execution device. Local CPU verification passed on real audio; the GPU command verifies again before using that mode.
 
 ## 3. Inside the Modal shell
 
@@ -44,7 +42,7 @@ python -m duplex.volume_commit
 exit
 ```
 
-`full-session` checkpoints codec progress, then trains when encoding is complete and enough reservation remains. It removes the pilot's 17-step/20-minute training limits. Training still has an exposure cap, a session deadline and a checkpoint reserve. It saves initialization, optimizer/RNG/sampler, adapter checkpoints, baseline, development selection, matched generation and export.
+`full-session` checkpoints codec progress, then trains when encoding is complete and enough reservation remains. Training still has an exposure cap, a session deadline and a checkpoint reserve. It saves initialization, optimizer/RNG/sampler, adapter checkpoints, baseline, development selection, matched generation and export.
 
 If it reports encoding/training **partial**, exit and confirm the GPU stopped. Reconcile the printed session ID locally:
 

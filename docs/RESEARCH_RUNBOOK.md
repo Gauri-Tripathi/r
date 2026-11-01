@@ -1,22 +1,22 @@
-# Research continuation commands
+# Correction and grounding experiment
 
-For inference with the trained adapter, see [INFERENCE.md](INFERENCE.md).
+For the OpenYap adapter, use [inference](INFERENCE.md) or [training](OPENYAP_FULL_TRAINING.md).
 
-For the current **full OpenYap conversational training** request, use [OPENYAP_FULL_TRAINING.md](OPENYAP_FULL_TRAINING.md). The commands below concern the separate appointment/teacher experiment.
+This guide covers the separate appointment-correction experiment. Accepted teacher responses are still missing.
 
-Use WSL from this repository: `source .venv-linux/bin/activate`. Keep `pilot` unchanged. Active data version: `research-v3`. The validated GPU remains **one A100 80GB**, with the existing selective LoRA. Paid commands below describe a future authorized run; they have not executed in this continuation.
+Run local commands in WSL with `source .venv-linux/bin/activate`. Dataset: `research-v3`. GPU: one A100 80GB. Keep the original `pilot` artifacts.
 
-## Offline scenarios and text teacher
+## Scenarios and targets
 
-Already generated locally:
+Generate candidates:
 
 ```bash
 duplex research candidates --out data/research-v3 --count 400 --seed 101
 ```
 
-Whole groups yield 403 candidates: 318 train / 32 dev / 53 test. Observable scripts/facts, not IDs alone, define uniqueness. Groups and correction wording stay within splits. Changed candidate locks require a new version. This is narrow synthetic scheduling data with incomplete family coverage in small subsets, not a validated research audio dataset.
+This produces 403 scheduling scenarios: 318 train, 32 development and 53 test. Groups and correction wording stay within splits. Use a new version if changing locked candidates.
 
-**Missing step:** supply `data/research-v3/teacher-responses.jsonl` from a separately selected stronger text model using `teacher-requests.jsonl` and the [exact import contract](TEACHER_CONTRACT.md). No provider/key is selected or required elsewhere. Then validate locally:
+Generate responses to `teacher-requests.jsonl` with your chosen text model. Save them as `data/research-v3/teacher-responses.jsonl` using the [import format](TEACHER_CONTRACT.md), then validate:
 
 ```bash
 duplex targets --data data/research-v3/train-dev-candidates.jsonl \
@@ -24,11 +24,11 @@ duplex targets --data data/research-v3/train-dev-candidates.jsonl \
 duplex validate --data data/research-v3/accepted.jsonl
 ```
 
-Review accepted wording/provenance. Fixtures cannot pass research preparation; no OpenYap conversation labels are inferred. The optional teacher HTTP command is a separate, explicitly budgeted preparation process, never part of train/resume/export/inference.
+Review accepted responses before rendering. Research preparation rejects fixture targets.
 
-## Separate CPU audio preparation
+## Audio preparation
 
-User-only evaluation inputs already exist: 12 development cases / 394.88 session-seconds and 12 test cases / 421.76 session-seconds. Reproduce using the locally cached tokenizer:
+The evaluation set has 12 development cases (394.88 seconds) and 12 test cases (421.76 seconds). Render user inputs with the cached tokenizer:
 
 ```bash
 duplex research prepare-eval --data data/research-v3/dev-locked.jsonl \
@@ -37,9 +37,9 @@ duplex research prepare-eval --data data/research-v3/test-locked.jsonl \
   --root data/research-v3/eval-test --assets data/research-v2/assets
 ```
 
-Only user WAV and arrived facts enter generation. No correction transcript, oracle user state, teacher target or continuation is passed. Duration is common within each group and independent of gold answer length. Actual overlap with generated assistant speech must be measured; reference-prefix timing alone does not establish it.
+Generation receives user audio and facts as they arrive. Group members share an evaluation duration independent of answer length. Measure correction overlap against generated speech.
 
-For training preparation, download the existing cached codec locally (no base load). Check any transfer charges:
+Download the cached codec for local preparation:
 
 ```bash
 mkdir -p cache/research-assets
@@ -52,9 +52,9 @@ duplex research prepare --data data/research-v3/accepted.jsonl \
   --cache cache/research-mimi-measure --max-audio-s 600 --measure-groups 1
 ```
 
-`measure/prepared.json` reports actual TTS/encoding/loading cost, cold misses, cache hits and exclusions. It is a measurement, not the research dataset. Local eSpeak produces audio only, with separate backend provenance and no API fee. Natural audio import requires licensed isolated channels, shared lengths and checked response word timings through `duplex audio-import`; it cannot bypass the research manifest gates.
+`measure/prepared.json` records rendering, codec loading, cache hits and exclusions. The renderer uses local eSpeak. To import recordings, use `duplex audio-import` with isolated channels and checked word timings.
 
-Choose `AUDIO_CAP_S` from those costs and provisional old training throughput (2.55915 seconds per four-example accumulated step, 126.32 session-seconds). For orientation, a 3600-second cap might accommodate roughly 80–100 training sessions plus development data at old lengths; actual surviving counts are unknown. Reject an unaffordable preparation cost. Set the measured cap, then:
+Set `AUDIO_CAP_S` from the measured preparation cost and available budget:
 
 ```bash
 duplex research prepare --data data/research-v3/accepted.jsonl \
@@ -63,30 +63,35 @@ duplex research prepare --data data/research-v3/accepted.jsonl \
   --measurement data/research-v3/measure/prepared.json
 ```
 
-Selection uses whole groups, allocating 80% of the cap to train and 20% to dev. Inspect exclusions, actual counts/durations, encoded hashes and audio timelines; listen to samples. At least 64 distinct training examples and four development examples must survive. Sessions exceeding 750 frames including the native prompt are rejected, not truncated through the target. No final duration/step count is claimed before measurement.
+Preparation allocates 80% of the duration cap to training and 20% to development, selecting whole groups. At least 64 training and four development examples must survive. Sessions over 750 frames, including the prompt, are excluded. Check exclusions and listen to the aligned channels.
 
-Exposure reports sum distinct scenario-session durations; shared counterfactual prefixes and silence are not deduplicated acoustic content. Report this together with independent group counts and the per-example reuse bound.
+Reported exposure includes silence and shared counterfactual prefixes. Record group counts and passes alongside duration.
 
-## Accounting and complete workload plan
+## Budget and workload
 
-Append current accounting; do not reset the ledger:
+Use current billing and the existing `runs/budget.json`. The plan includes loading, preparation, training, evaluation and shutdown, with a default cap of two passes.
+
+Set `REMAINING_CREDIT` and `METERED_USD` from current billing, then record them and generate a plan:
 
 ```bash
-duplex budget-account --ledger runs/budget.json --remaining-credit 23.87 --metered-usd 6.1834525
+duplex budget-account --ledger runs/budget.json \
+  --remaining-credit "$REMAINING_CREDIT" --metered-usd "$METERED_USD"
+
 duplex research plan --config configs/research.yaml \
   --data-manifest data/research-v3/prepared/prepared.json \
   --profile runs/audit-2026-11-01/remote/duplex-runs/pilot/profile.json \
-  --ledger runs/budget.json --remaining-credit 23.87 --previous-metered-usd 6.1834525 \
+  --ledger runs/budget.json --remaining-credit "$REMAINING_CREDIT" \
+  --previous-metered-usd "$METERED_USD" \
   --dev-evaluation-lock data/research-v3/eval-dev/evaluation-lock.json \
   --test-evaluation-lock data/research-v3/eval-test/evaluation-lock.json \
   --extra-preparation-usd 0 --out runs/research-v3-plan.json
 ```
 
-Amounts are from 2026-11-01; refresh them after additional usage. Workspace metered cost is a conservative upper bound until project attribution is known. Replace zero with additional teacher/TTS/paid preparation estimates. The original $18 ceiling and 18,000-second cap remain. Planning includes previous usage, actual evaluation durations, profiling, loading, monitoring, training, saving and idle/shutdown margins. Old throughput is provisional; confirm it with a fresh profile. Two passes bound reuse: 100 train sessions at accumulation four permit at most 50 optimizer steps. Do not execute `fits: false` or fill four hours.
+The historical profile is provisional. Replace it with a fresh measurement before training. Include any additional paid preparation in `--extra-preparation-usd`; do not execute a plan reporting `fits: false`.
 
-## Locked audible base baseline before training
+## Base-model evaluation
 
-After paid execution is authorized and affordable, upload inputs and use the budget wrapper:
+Upload prepared inputs and open a budgeted shell:
 
 ```bash
 modal volume put duplex-data data/research-v3 /research-v3
@@ -105,14 +110,14 @@ python -m duplex.volume_commit
 exit
 ```
 
-Confirm actual GPU shutdown in Modal and reconcile locally using the printed ID:
+After confirming shutdown in Modal, reconcile the printed session ID locally:
 
 ```bash
 duplex budget-reconcile --config configs/research.yaml --ledger runs/budget.json \
   --session SESSION_ID --confirmed-stopped
 ```
 
-Obtain ASR from the generated WAVs, using a separately selected local/imported transcription process. **No ASR engine has been selected or run.** Never transcribe from gold answers. JSONL fields: `id`, `audio_sha256`, `text`, `words:[{text,start_s,end_s}]`, `uncertainty` (0–1), `engine`, `revision`. Nonempty speech needs timestamps; hashes must match generated WAVs. Listen for ASR/TTS/runtime failures.
+Transcribe the generated WAVs with word timestamps. Use the [ASR JSONL format](DATA.md#speech-evaluation) and check ambiguous transcripts by listening.
 
 Download generations and score on CPU, then upload the report:
 
@@ -123,11 +128,11 @@ duplex research baseline --data data/research-v3/eval-dev/rendered.jsonl \
 modal volume put duplex-runs runs/research-v3/baseline.json /research-v3/baseline.json
 ```
 
-For directory downloads, use SDK recursive `listdir`/`read_file` as in `scripts/pull_smoke_audit.py`; installed CLI directory-get was unreliable. If the base already solves all locked cases, training stops: no capability gap was shown. Review development difficulty without inspecting final-test model outcomes. Partial failures need listening review too.
+Download directories with SDK `listdir`/`read_file`, as in `scripts/pull_smoke_audit.py`. If the base solves every development case, revise development difficulty before training. Keep test outcomes out of that decision.
 
-## Fresh profile and bounded supervised training
+## Profile and train
 
-Refresh accounting/plan and open another authorized budgeted shell. Execute stages separately and inspect the fresh profile before training:
+Refresh the budget and plan, then profile in a GPU shell:
 
 ```bash
 cd /opt/duplex
@@ -138,7 +143,7 @@ duplex profile --config configs/research.yaml --assets /cache/assets \
   --ledger /runs/budget.json --eval-examples 12
 ```
 
-Check actual step/sequence time, per-modality adapter gradients, memory, generation time and remaining reservation. If affordable:
+Check step time, separate audio/text gradients, memory and evaluation time against the reservation. Then train:
 
 ```bash
 duplex train --config configs/research.yaml --assets /cache/assets \
@@ -150,11 +155,11 @@ python -m duplex.volume_commit
 exit
 ```
 
-Fresh adapters start from the base, not the over-reused smoke adapter. Step-zero tensors, stream delays, bounded exposure and dev monitoring are saved. Dev loss selects a checkpoint; it does not establish speech improvement. For a genuinely interrupted run, add `--resume /runs/research-v3/train/checkpoints/step-NNNNNN` to the same command. Config/data/source mismatches reject. Do not restart to bypass exposure limits. Confirm shutdown and reconcile before another allocation.
+Training starts a fresh adapter from the base and selects checkpoints by development loss. To resume, add `--resume /runs/research-v3/train/checkpoints/step-NNNNNN` with matching config, data and source. Confirm shutdown and reconcile before opening another shell.
 
-## Matched held-out speech and export
+## Test and export
 
-Use the dev-selected `best.json`, not a test-selected checkpoint. In an authorized evaluation shell:
+Load the development-selected checkpoint from `best.json`. In the evaluation shell:
 
 ```bash
 BEST=$(python -c 'import json; print(json.load(open("/runs/research-v3/train/best.json"))["checkpoint"])')
@@ -177,6 +182,6 @@ duplex evaluate --data data/research-v3/eval-test/rendered.jsonl --root data/res
 duplex export --checkpoint "runs/research-v3/train/checkpoints/$BEST" --out runs/research-v3/export
 ```
 
-Report correction success, unchanged constraints, grounding, unsupported commitments, response delay, actual overlap, RTF, silence, truncation, repetition and ASR uncertainty. Listen for intelligibility/prosody regressions; lexical scores are not acoustic quality. Output changes establish sensitivity only. Report unchanged/worse outcomes and small grouped-sample uncertainty honestly.
+Compare correction success, preserved constraints, grounding, unsupported commitments and response delay. Include overlap, RTF, silence, truncation, repetition and ASR uncertainty. Listen for speech regressions; lexical scores cover only recognized content.
 
-Export includes safe adapter tensors, exact configuration/revisions, runtime source/dependency requirements, attribution and checksums. Replay accepts checkpoint or export. No teacher is used at inference. Export alone does not complete evaluation; no upload/publish happens automatically.
+The export contains adapter tensors, configuration, pinned revisions, runtime requirements, attribution and checksums. Replay accepts either a checkpoint or export directory.

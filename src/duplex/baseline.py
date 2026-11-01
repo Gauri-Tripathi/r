@@ -1,4 +1,4 @@
-"""Score a locked base speech run using externally cached ASR; no teacher/judge API."""
+"""Score locked base-model speech from cached ASR transcripts."""
 
 from __future__ import annotations
 

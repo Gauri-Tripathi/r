@@ -1,4 +1,4 @@
-"""Recorded-audio inference with a validated adapter and an answer-time silence tail."""
+"""Recorded-audio inference with a saved adapter."""
 
 from __future__ import annotations
 

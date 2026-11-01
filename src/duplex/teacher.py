@@ -1,4 +1,4 @@
-"""Checked imported targets or explicitly budgeted schema-constrained HTTP teacher."""
+"""Teacher target import and optional HTTP generation."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ def api_targets(rows: list[Example], cfg: TeacherConfig, cache: Path) -> list[Ex
         )
     cache.mkdir(parents=True, exist_ok=True)
     output = []
-    # Serial is intentional: bounded concurrency 1, no background requests on failure.
+    # Keep requests serial so a failed batch cannot leave billable work running.
     with httpx.Client(timeout=cfg.timeout_s, follow_redirects=False) as client:
         for row in rows:
             prompt = teacher_request(row)

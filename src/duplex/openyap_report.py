@@ -1,4 +1,4 @@
-"""Local, network-free inspection and listening report for a completed pilot."""
+"""Saved-run reports and speech comparisons."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Bounded input, atomic manifests, content addressing, and safe logging."""
+"""Atomic manifests, bounded reads and content hashes."""
 
 from __future__ import annotations
 

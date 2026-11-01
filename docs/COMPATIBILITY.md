@@ -1,24 +1,22 @@
-# Compatibility decisions, audited 2026-10-31
+# Runtime and training
 
-The immutable source/asset revisions are in `upstream.lock.json`. Public Hub metadata is saved in `upstream-metadata.json`. Upstream source was inspected locally, without running downloaded scripts. Only the official runtime tree is vendored. No community package or second Moshi distribution is installed.
+Source and asset revisions are in `upstream.lock.json`. The Moshi runtime is vendored under `vendor/personaplex`.
 
-|Area|Observed API / decision|Evidence boundary|
-|---|---|---|
-|Loader|Official `moshi.models.loaders.get_moshi_lm` / `get_mimi`, filename-based; this checkout has **no `CheckpointInfo`**|Inspected pinned source; actual gated weights not loaded|
-|Architecture|17 channels = text + 8 assistant audio codebooks + 8 user audio codebooks. Official loader sets `dep_q=16`; all 16 audio heads are computed, user loss is zero|Actual upstream tiny CPU forward/backward passed|
-|Delays|Official `[0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1]`; `forward_train` delays inputs, shifts causally, then undelays logits and returns masks|Tiny CPU delay/mask test passed; owned loss does not shift again|
-|Temporal LoRA|Only exact `transformer.layers.{28,29,30,31}.self_attn.out_proj` by default, rank 8, alpha 8, dropout 0. Fused `in_proj_weight` is a bare functional-linear parameter and is deliberately excluded|Real upstream tiny projection/gradient/save/load test passed; actual 7B names checked at load|
-|Depth transformer|Frozen parameters, still participates in autograd. Audio loss only on first 8 assistant codebooks|Nonzero gradients to all intended tiny temporal adapters after two steps; frozen tiny parameters unchanged|
-|Context|Official code has no `inject_context`; native `LMGen.step(input_tokens=...,moshi_tokens=...,text_token=...)` supports forcing text and assistant codes while still consuming user codes|Actual native CPU forcing/reset test passed|
-|Community fork|`LMGen.inject_context` queues wrapped context tokens. Community trainer imports `CheckpointInfo`, conditioners, and LoRA modules absent from its bundled runtime. Its documented workflow is FSDP/multiple GPUs|Audited as a reference, not represented as a proven single-A100 recipe|
-|Context schedule|Structured facts tokenize as `<context> calendar revision ... </context>`, one native piece per frame. Accepted injection forces assistant silence; every injected frame is masked from text/audio loss|Same `ContextQueue` and schedule in encoding and replay; reject truncation/overflow|
-|Prompts|Native order: optional licensed WAV voice, six silence frames, role text, six silence frames. Native prompt assistant SILENCE and user SINE constants taken from pinned source|Training code matches native order/constants; real-asset voice/Mimi parity remains a GPU/codec gate|
-|Alignment|Measured word-concatenation boundaries with one piece per frame; native 0 end-of-padding and 3 padding. Reject subword collisions, never uniformly stretch words|Real eSpeak 1.52.0 clean/overlap WAV construction verified with fixture tokenizer; real SentencePiece/codec alignment awaits licensed assets|
-|Checkpoint|Publishable adapter tensors use safetensors. Local optimizer/RNG state uses `torch.load(weights_only=True)` plus checksums; only locally generated resume state is trusted|Owned CPU round trip/incomplete/corruption tests passed|
-|Dependencies|Separate lock replaces obsolete upstream dependency metadata. Torch 2.8 audit exposed vulnerabilities; final Torch 2.13.0 passed the available advisory scan and actual tiny native tests|No claim that newer Torch + actual 7B CUDA checkpoint is verified|
+| Component | Implementation |
+|---|---|
+| Model | PersonaPlex 7B; native `get_moshi_lm` and `get_mimi` loaders |
+| Streams | Text, eight assistant audio codebooks, eight user audio codebooks |
+| LoRA | `transformer.layers.{28,29,30,31}.self_attn.out_proj`; rank 8, alpha 8, dropout 0 |
+| Trainable parameters | 262,144 across eight adapter tensors |
+| Loss | Separately normalized assistant audio CE + text CE; text PAD weight 0.1 |
+| Optimizer | AdamW, LR `1e-5`, betas `(0.9, 0.95)`, decay `0.01`, gradient clip 1 |
+| Checkpoints | Safetensors adapters; checksummed local optimizer, RNG and sampler state |
+| GPU | One A100 80GB; CUDA graphs and compilation disabled |
 
-No attention/codec replacement, PEFT/TRL/AutoModel, full-model tuning, online teacher, GRPO, RL, quantization or compilation. Native SDPA remains in place. Native CUDA graphing and `torch.compile` are disabled through upstream environment controls for the first experiment; their speedups are not assumed.
+Stream delays are `[0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1]`. `forward_train` returns undelayed logits and validity masks. User audio, prompt frames and injected context frames are masked from supervision.
 
-The SFT objective is the sum of separately normalized assistant audio CE and text CE. Text PAD receives 0.1 weight; post-event response weight defaults to 1.0. This intentionally does not copy a text-LLM learning rate or a community aggregate loss scale: AdamW 1e-5, betas (0.9,0.95), decay .01, clip 1 are conservative **unvalidated pilot choices**. Profile and inspect separate losses, PAD ratio, generated silence and repetition before spending the remaining budget. A zero-initialized LoRA B gives A zero gradient on the first step; both factors must receive nonzero gradients after the second step. Constant LR has no scheduler state. Ordered sampler + Torch CPU/CUDA RNG are persisted; GPU kernels can remain nondeterministic.
+The depth transformer is frozen but remains in the autograd graph. Audio loss backpropagates through it to the temporal adapters. LoRA B starts at zero, so A receives no gradient on the first step.
 
-The real-checkpoint smoke gate must still establish: full load/no meta parameters, forward/backward/optimizer, frozen integrity, adapter save/reload, short audible generation, codec throughput, peak memory, optimizer-step wall time, save latency, generation RTF, and a measured reserve for matched evaluation. Tiny tests cannot establish that an A100 80GB fits the actual checkpoint or that training improves speech behavior.
+Context updates are serialized one text piece per frame. The model consumes user audio and emits assistant silence during injection. Encoding and replay use the same schedule, so longer updates delay responses.
+
+Prompt order is optional licensed voice audio, six silence frames, role text, then six silence frames. Every example starts a fresh streaming session. Checkpoints preserve the sampler and Torch RNG; GPU kernels may still be nondeterministic.

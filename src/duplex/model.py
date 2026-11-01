@@ -1,7 +1,7 @@
-"""Pinned native Moshi APIs and selective temporal output-projection LoRA.
+"""Native Moshi loading and temporal output-projection LoRA.
 
-Fused QKV is a bare parameter used by functional.linear, not an nn.Linear.
-We deliberately adapt only audited temporal self_attn.out_proj modules.
+Fused QKV uses functional.linear with a bare parameter. Adapters wrap the
+self_attn.out_proj modules.
 """
 
 from __future__ import annotations
@@ -202,7 +202,7 @@ def native_loss(
     def ce(
         logits: torch.Tensor, targets: torch.Tensor, mask: torch.Tensor, w: torch.Tensor
     ) -> torch.Tensor:
-        # Select valid entries before CE: delayed NaNs must never enter backward.
+        # Mask invalid delayed logits before CE to prevent NaN gradients.
         if not mask.any():
             raise ValueError("No valid targets for modality")
         loss = torch.nn.functional.cross_entropy(

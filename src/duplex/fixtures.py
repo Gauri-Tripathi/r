@@ -1,4 +1,4 @@
-"""Explicitly artificial CPU plumbing; never a speech model compatibility claim."""
+"""Synthetic CPU fixtures for pipeline tests."""
 
 from __future__ import annotations
 

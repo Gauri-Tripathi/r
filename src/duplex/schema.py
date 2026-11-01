@@ -1,4 +1,4 @@
-"""Labels and supervision cannot be serialized through the runtime input schema."""
+"""Scenario, supervision and model-input schemas."""
 
 from __future__ import annotations
 

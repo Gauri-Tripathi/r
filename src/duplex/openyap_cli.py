@@ -1,4 +1,4 @@
-"""Explicit commands for the real-conversation feasibility experiment."""
+"""OpenYap preparation, training and reporting commands."""
 
 from __future__ import annotations
 
